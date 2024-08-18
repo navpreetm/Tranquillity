@@ -7,8 +7,10 @@ import { app } from "../../firebase/firebaseApp";
 
 export default function RegisterForm() {
   return (
-    <div className="grid gap-4">
-      <button className="text-app-black">Sign in with google!</button>
-    </div>
+    <>
+      <button className="w-full p-3 mb-4 flex items-center justify-center border border-gray-300 rounded-lg text-app-black">
+        [ICON] Continue with Google
+      </button>
+    </>
   );
 }
