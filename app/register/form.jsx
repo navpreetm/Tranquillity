@@ -1,14 +1,17 @@
 "use client";
 
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useRouter } from 'next/router';
-import { app } from "../../firebase/firebaseApp";
+import { UserAuth } from "../context/AuthContext";
 
 export default function RegisterForm() {
+  const { signInWithGoogle } = UserAuth();
+
+  const handleGoogleLogin = () => {
+    signInWithGoogle();
+  }
+
   return (
     <>
-      <button className="w-full p-3 mb-4 flex items-center justify-center border border-gray-300 rounded-lg text-app-black">
+      <button onClick={handleGoogleLogin} className="w-full p-3 mb-4 flex items-center justify-center border border-gray-300 rounded-lg text-app-black">
         [ICON] Continue with Google
       </button>
     </>
