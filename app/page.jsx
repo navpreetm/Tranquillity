@@ -1,4 +1,5 @@
 // landing page - similar to framer app
+// Root page
 "use client";
 
 export default function Home() {
