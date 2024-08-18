@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { UserAuth } from "../context/AuthContext";
 
 export function MainNav() {
   // logo on top left, login / signup / account on top right
+  const { user } = UserAuth();
+  console.log(user)
 
   return (
     <div className="bg-app-light-purple bb-2 p-4">
