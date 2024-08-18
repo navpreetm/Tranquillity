@@ -1,9 +1,9 @@
-import AuthLayout from "../auth/AuthLayout";
+import AuthLayout from "../global-components/AuthLayout";
 import LoginForm from "./form";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   return (
-    <AuthLayout variant="register">
+    <AuthLayout variant="login">
       <LoginForm />
     </AuthLayout>
   );
