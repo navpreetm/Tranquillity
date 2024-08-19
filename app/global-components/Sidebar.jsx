@@ -27,7 +27,7 @@ export function Sidebar() {
     },
     {
       name: "Journal",
-      href: "/journal",
+      href: "/journal-entries",
       icon: <i className="fas fa-book mr-3"></i>
     },
     {

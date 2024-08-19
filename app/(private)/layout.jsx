@@ -6,7 +6,7 @@ import { auth, app } from "@/firebase/firebaseApp";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { Sidebar } from "@/app/global-components/Sidebar";
+import { Sidebar } from "@/global-components/Sidebar";
 
 const db = getFirestore(app);
 
