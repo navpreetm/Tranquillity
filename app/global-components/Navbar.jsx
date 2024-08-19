@@ -16,7 +16,7 @@ export function MainNav() {
           Log in
         </Link>
         <Link href="/register"
-          className="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-md text-white transition-all hover:bg-gray-800 hover:ring-4 hover:ring-app-dark-purple">
+          className="animate-fade-in rounded-full border border-black bg-black px-4 py-1.5 text-md text-white transition-all hover:bg-gray-800 hover:ring-4 hover:ring-app-purple-200">
           Sign up
         </Link>
       </>

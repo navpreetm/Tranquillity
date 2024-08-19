@@ -16,6 +16,15 @@ module.exports = {
         "arial": ["Arial", "sans-serif"],
       },
       colors: {
+        "app-purple": {
+          100: "#E6E6FA",
+          200: "#D3CAEB",
+          300: "#C0ADDC",
+          400: "#AD90CD",
+          500: "#9973BE",
+          600: "#723AA0",
+          700: "#4B0082",
+        },
         "app-light-purple": "#E6E6FA",
         "app-dark-purple": "#4B0082",
         "app-black": "#212427",

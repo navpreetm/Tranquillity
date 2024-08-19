@@ -7,6 +7,7 @@ import { auth } from "@/firebase/firebaseApp";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
+
 export default function LoginPage() {
   const router = useRouter();
   const [user, loading, error] = useAuthState(auth);
