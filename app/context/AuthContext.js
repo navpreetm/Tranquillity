@@ -2,10 +2,12 @@
 
 import { useContext, createContext, useState, useEffect } from 'react';
 import { signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../firebase/firebaseApp';
+import { auth, app } from '../../firebase/firebaseApp';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const AuthContext = createContext();
 const googleProvider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -51,10 +53,31 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  // Monitor user state and set user in state
+  // Monitor changes user state and set user in state
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
+
+      console.log(user);
+
+      // if user is defined, create a Firestore user document if needed
+      if (user) {
+        const userDocRef = doc(db, 'users', user.uid);
+        const userDoc = getDoc(userDocRef);
+        
+        if (!userDoc.exists) {
+          await setDoc(userDocRef, {
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            createdAt: new Date(),
+            premium: false,
+            dailyAnalysisCount: 0,
+            aiTokenUsage: 0,
+            streak: 0
+          })
+        }
+      }
     });
     return () => unsubscribe();
   }, []);

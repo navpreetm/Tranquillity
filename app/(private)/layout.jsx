@@ -1,21 +1,21 @@
 "use client";
 
 import { useEffect } from "react";
-import { UserAuth } from "../context/AuthContext";
 import { useRouter } from "next/navigation";
+import { auth } from "@/firebase/firebaseApp";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function PrivateLayout({ children }) {
-  const { user } = UserAuth();
+  const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
 
   useEffect(() => {
-    console.log("checking protected route");
+    if (loading) return;
     
-    console.log(user)
     if (!user) {
       router.push('/login');
     }
-  }, [user]);
+  }, [user, loading]);
 
   return user ? <>{children}</> : <></>;
 }
