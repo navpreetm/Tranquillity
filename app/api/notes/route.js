@@ -1,5 +1,13 @@
 import { db } from "@/firebase/firebaseApp";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export async function GET(request) {
   try {
@@ -45,6 +53,80 @@ export async function GET(request) {
   } catch (error) {
     console.error("Error fetching notes:", error);
     return new Response(JSON.stringify({ error: "Error fetching notes" }), {
+      status: 500,
+    });
+  }
+}
+
+export async function POST(request) {
+  try {
+    console.log("Starting POST function");
+
+    const data = await request.json();
+    const { id, ai, body, title } = data;
+
+    const userId = request.headers.get("userId");
+    console.log("User ID from headers:", userId);
+
+    if (!userId) {
+      console.error("User ID is missing");
+      return new Response(JSON.stringify({ error: "User ID is required" }), {
+        status: 400,
+      });
+    }
+
+    if (!id || !body || !title) {
+      console.error("Missing required fields:", { id, body, title });
+      return new Response(
+        JSON.stringify({ error: "All fields are required" }),
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const noteDoc = doc(collection(db, "users", userId, "notes"), id);
+    console.log("Firestore document reference:", noteDoc);
+
+    await setDoc(noteDoc, {
+      ai,
+      body,
+      title,
+      createdTime: new Date(),
+    });
+
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  } catch (error) {
+    console.error("Error creating note:", error);
+    return new Response(JSON.stringify({ error: "Error creating note" }), {
+      status: 500,
+    });
+  }
+}
+
+export async function PUT(request) {
+  try {
+    const data = await request.json();
+    const { id, ai, body, title } = data;
+    const userId = request.headers.get("userId");
+
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "User ID is required" }), {
+        status: 400,
+      });
+    }
+    const noteDoc = doc(collection(db, "users", userId, "notes"), id);
+
+    await updateDoc(noteDoc, {
+      ai,
+      body,
+      title,
+    });
+
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  } catch (error) {
+    console.error("Error updating note:", error);
+    return new Response(JSON.stringify({ error: "Error updating note" }), {
       status: 500,
     });
   }
