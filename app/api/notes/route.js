@@ -60,13 +60,10 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    console.log("Starting POST function");
-
     const data = await request.json();
     const { id, ai, body, title } = data;
 
     const userId = request.headers.get("userId");
-    console.log("User ID from headers:", userId);
 
     if (!userId) {
       console.error("User ID is missing");
@@ -86,7 +83,6 @@ export async function POST(request) {
     }
 
     const noteDoc = doc(collection(db, "users", userId, "notes"), id);
-    console.log("Firestore document reference:", noteDoc);
 
     await setDoc(noteDoc, {
       ai,
