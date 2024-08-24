@@ -23,8 +23,6 @@ export async function GET(request) {
       });
     }
 
-    console.log(1);
-
     // Reference to the user's notes subcollection
     const notesCollection = collection(db, "users", userId, "notes");
     // Fetch all documents in the notes subcollection
