@@ -118,21 +118,12 @@ const createNote = async (userId) => {
 }
 
 /**
- * Handles a POST request to create or update a note in the database. It expects a JSON payload containing note id, body text, ai, and title
- * Additionally, it requires a 'userId' in the request headers to associate the note with a specific user 
+ * creates a new note for a user
  * @param {Request} request 
  * @returns 
  */
 export async function POST(request) {
   try {
-    const data = await request.json();
-
-    // ai: string | undefined
-    // id: firebaseID | undefined
-    // body: string | undefined
-    // title: string | undefined
-    const { ai, id, body, title } = data;
-
     const userId = request.headers.get("userId");
     
     let resultMessage = "";
@@ -144,23 +135,9 @@ export async function POST(request) {
       });
     }
 
-    // if no id is provided, create a new note
-    if (!id) {
-      await createNote(userId);
-      resultMessage = "Note created successfully!";
-    } 
-    // id is provided, so update the existing note
-    else {
-      const noteDoc = doc(collection(db, "users", userId, "notes"), id);
-
-      await setDoc(noteDoc, {
-        ai,
-        body,
-        title,
-      });
-
-      resultMessage = "Note updated successfully!";
-    }
+    // create a new note
+    await createNote(userId);
+    resultMessage = "Note created successfully!";
 
     return new Response(JSON.stringify({ 
       success: true, 
@@ -174,6 +151,11 @@ export async function POST(request) {
   }
 }
 
+/**
+ * updates a given note for a user
+ * @param {Request} request 
+ * @returns 
+ */
 export async function PUT(request) {
   try {
     const data = await request.json();
@@ -185,6 +167,8 @@ export async function PUT(request) {
         status: 400,
       });
     }
+    
+    // get the reference to the note document 
     const noteDoc = doc(collection(db, "users", userId, "notes"), id);
 
     await updateDoc(noteDoc, {
