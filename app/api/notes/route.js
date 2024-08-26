@@ -18,10 +18,9 @@ import {
  */
 export async function GET(request) {
   try {
-    // Extract userId from the query parameters
-    const url = new URL(request.url);
-    const userId = url.searchParams.get("userId");
-
+    // Extract userId from request headers
+    const userId = request.headers.get("userId");
+ 
     console.log(userId);
 
     if (!userId) {
@@ -34,8 +33,6 @@ export async function GET(request) {
     const notesCollection = collection(db, "users", userId, "notes");
     // Fetch all documents in the notes subcollection
     const notesSnapshot = await getDocs(notesCollection);
-
-    console.log(notesSnapshot);
 
     if (notesSnapshot.empty) {
       return new Response(JSON.stringify([]), { status: 200 });
