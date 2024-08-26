@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebaseApp";
@@ -10,24 +10,37 @@ const JournalEntry = () => {
   const id = pathname.substring(pathname.lastIndexOf('/') + 1);
 
   const [user, loading, error] = useAuthState(auth);
+  const [note, setNote] = useState(null);
 
-  // query firebase for note with id
+  useEffect(() => {
+    // query firebase for note with id
+    const fetchNote = async () => {
+      try {
+        const response = await fetch(`/api/notes/${id}`, {
+          headers: {
+            'userId': user.uid
+          },
+        });
+    
+        const result = await response.json();
+        setNote(result.note);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-  const getNote = async () => {
-    const response = await fetch(`/api/notes/`, {
-      headers: {
-        'userId': user.uid
-      },
-      body: JSON.stringify({ id })
-    });
+    if (user) {
+      fetchNote();
+    }
+  }, [user]);
 
-    const data = await response.json();
-    console.log(data);
-  }
+  if (loading) return <h1>Loading...</h1>;
 
   return (
-    <div>
+    <div className="text-app-purple-700">
       <h1>Journal Entry {id}</h1>
+      <p>Title: {note?.title}</p>
+      <p>Body: {note?.body}</p>
     </div>
   );
 };
