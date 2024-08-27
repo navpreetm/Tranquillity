@@ -79,9 +79,8 @@ const JournalEntry = () => {
   if (!note) return <h1>Note is loading...</h1> 
 
   return (
-    <main className="w-full">
-      <div className="h-screen w-full flex items-center flex-col">
-        <div className="m-10 flex flex-col items-center text-2xl text-center text-app-purple-700">
+      <div className="h-full flex items-center flex-col overflow-hidden">
+        <div className="m-2 flex flex-col items-center text-2xl text-center text-app-purple-700">
           <span className="">
             {note.title}
           </span>
@@ -92,11 +91,10 @@ const JournalEntry = () => {
             onChange={handleEditorChange}
             modules={quillModules}
             formats={quillFormats}
-            className="w-full h-[70%] mt-10 bg-white"
+            className="w-full h-full bg-app-purple-200"
           />
         </div>
       </div>
-    </main>
   );
 };
 

@@ -50,9 +50,11 @@ export default function PrivateLayout({ children }) {
   if (user) {
     return (
       <>
-        <div className="flex">
+        <div className="flex" style={{ height: 'calc(100vh - 64px)' }}>
           <Sidebar />
-          {children}
+          <div className="overflow-scroll w-full h-full">
+            {children}
+          </div>
         </div>
       </>
     )

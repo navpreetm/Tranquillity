@@ -38,7 +38,7 @@ export function Sidebar() {
   ]
 
   return (
-    <div className="h-full w-64 text-app-black flex flex-col border-r-2 border-app-purple-700">
+    <div className="w-64 text-app-black flex flex-col border-r-2 border-app-purple-700 overflow-hidden">
       <div className="flex items-center p-4">
         <img src="https://placehold.co/40x40" alt="User profile picture" className="rounded-full w-10 h-10" />
         <div className="ml-3 w-3/4">

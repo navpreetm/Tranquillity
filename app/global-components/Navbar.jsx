@@ -24,7 +24,7 @@ export function MainNav() {
   }
 
   return (
-    <div className="py-4 px-10 border-b-2 border-app-purple-700">
+    <div className="py-4 px-10 border-b-2 border-app-purple-700 h-[64px]">
       <Link href="/" className="animate-fade-in rounded-full px-4 py-1.5 text-xl font-medium transition-colors ease-out text-app-black hover:text-black">
         LOGO HERE
       </Link>
