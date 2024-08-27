@@ -79,14 +79,11 @@ const JournalEntry = () => {
   if (!note) return <h1>Note is loading...</h1> 
 
   return (
-    <main>
-      <div className="h-screen w-screen flex items-center flex-col">
-        <div className="m-10  flex flex-col items-center">
-          <span className="text-2xl text-center">
-            Quill Rich Text Editor
-          </span>
-          <span className="text-xl text-center">
-            Title: {note.title}
+    <main className="w-full">
+      <div className="h-screen w-full flex items-center flex-col">
+        <div className="m-10 flex flex-col items-center text-2xl text-center text-app-purple-700">
+          <span className="">
+            {note.title}
           </span>
         </div>
         <div className="h-full w-full">
