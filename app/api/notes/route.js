@@ -66,17 +66,20 @@ const createNote = async (userId) => {
   const notesCollection = collection(db, "users", userId, "notes");
 
   // get all notes from today
-  // settings 4 AM EST as the start of the day
-  const startOfDay = new Date();
-  startOfDay.setDate(startOfDay.getDate() - 1);
-
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  
+  const endOfToday = new Date();
+  endOfToday.setHours(23, 59, 59, 999);
+  
   // Convert to Firestore Timestamps
-  const startTimestamp = Timestamp.fromDate(startOfDay);
+  const startTimestamp = Timestamp.fromDate(startOfToday);
+  const endTimestamp = Timestamp.fromDate(endOfToday);
   
   // Query to get notes created today
   const todayNotesQuery = query(
     notesCollection,
-    where("createdTime", "<=", startTimestamp),
+    where("createdTime", ">=", startTimestamp),
     where("createdTime", "<=", endTimestamp)
   );
 
@@ -89,8 +92,6 @@ const createNote = async (userId) => {
   }));
 
   const titleList = noteList.map(note => note.title);
-  console.log(noteList);
-  console.log(titleList)
 
   const newNoteRef = doc(notesCollection);
 
@@ -104,7 +105,6 @@ const createNote = async (userId) => {
   }
 
   console.log("title: " + title)
-  return;
 
   await setDoc(newNoteRef, {
     ai: "",
