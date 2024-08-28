@@ -76,8 +76,8 @@ const createNote = async (userId) => {
   // Query to get notes created today
   const todayNotesQuery = query(
     notesCollection,
-    where("createdAt", "<=", startTimestamp),
-    // where("createdAt", "<=", endTimestamp)
+    where("createdTime", "<=", startTimestamp),
+    where("createdTime", "<=", endTimestamp)
   );
 
   const querySnapshot = await getDocs(todayNotesQuery);

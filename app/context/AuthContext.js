@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
             email: user.email,
             displayName: user.displayName,
             photoURL: user.photoURL,
-            createdAt: new Date(),
+            createdTime: new Date(),
             premium: false,
             dailyAnalysisCount: 0,
             aiTokenUsage: 0,
