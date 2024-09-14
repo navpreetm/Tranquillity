@@ -1,6 +1,7 @@
 "use client";
 
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/firebaseApp";
 
 export default function RegisterForm() {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
