@@ -49,7 +49,8 @@ export function Sidebar() {
   return (
     <div className="w-64 text-app-black flex flex-col border-r-2 border-app-purple-700 overflow-hidden">
       <div className="flex items-center p-4">
-        <img src="https://placehold.co/40x40" alt="User profile picture" className="rounded-full w-10 h-10" />
+        <img 
+          src={user.photoURL ? user.photoURL : "https://placehold.co/40x40"} alt="User profile picture" className="rounded-full w-10 h-10" />
         <div className="ml-3 w-3/4">
           <div className="font-bold">{user.displayName}</div>
           <div className="text-sm text-gray-400 w-fit">{user.email}</div>
