@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { auth, app } from "@/firebase/firebaseApp";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
@@ -13,6 +13,7 @@ const db = getFirestore(app);
 export default function PrivateLayout({ children }) {
   const [user, loading, error] = useAuthState(auth);
   const router = useRouter();
+  const currentPath = usePathname();
 
   useEffect(() => {
     if (loading) return;
@@ -21,10 +22,12 @@ export default function PrivateLayout({ children }) {
       router.push('/login');
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log("user unsubscribe triggered")
-
-      if (!user) return;
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {      
+      // if no user logs out, redirect to page
+      if (!user) {
+        router.push('/logged-out');
+        return;
+      };
 
       // if a user is logged in, make sure data is synced
       const userDocRef = doc(db, 'users', user.uid);

@@ -96,7 +96,6 @@ export default function Dashboard() {
         const docSnap = await getDoc(userRef);
         if (docSnap.exists()) {
           const userData = docSnap.data();
-          console.log("User data:", userData);
           setStreak(userData.streak || 0);
         } else {
           console.log("No such document");

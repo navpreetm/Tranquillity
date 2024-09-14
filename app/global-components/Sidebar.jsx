@@ -2,11 +2,20 @@ import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebaseApp";
 import { usePathname } from 'next/navigation';
+import { signOut } from "firebase/auth";
 
 export function Sidebar() {
   // sidebar with 3 tabs: home, journal, mood tracker
   const [user, loading, error] = useAuthState(auth);
   const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   const renderSidebarTab = ({name, href, icon}) => {
     return (
@@ -34,7 +43,7 @@ export function Sidebar() {
       name: "Mood Tracker",
       href: "/mood-tracker",
       icon: <i className="fas fa-chart-line mr-3"></i>
-    }
+    }, 
   ]
 
   return (
@@ -48,6 +57,13 @@ export function Sidebar() {
       </div>
       <div className="h-screen mt-4">
         {tabs.map(tab => renderSidebarTab(tab))}
+        <button 
+          className="flex items-center p-4 text-app-black"
+          onClick={handleLogout}
+        >
+          <i className="fas fa-sign-out-alt mr-3"></i>
+          <span>Logout</span>
+        </button>
       </div>
     </div>
   )
