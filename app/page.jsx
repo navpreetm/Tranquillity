@@ -29,10 +29,10 @@ export default function Home() {
           </div>
         </div>
 
-        <div class="m-auto mt-32 bg-white rounded-lg shadow-lg p-10 max-w-2xl text-center">
-          <h1 class="text-4xl font-bold mb-6 text-app-black">We've launched!</h1>
-          <p class="text-lg mb-4 text-app-black">Ready to begin your journey of self-discovery and personal growth? TranQuillity is here to empower you to enhance your emotional well-being, foster personal growth, and build healthy habits—all through the art of journaling.</p>
-          <p class="text-lg mb-6">Be the first to experience TranQuillity—a new way to connect with yourself. Sign up for our exclusive waitlist now and take your journaling to the next level!</p>
+        <div className="m-auto mt-32 bg-white rounded-lg shadow-lg p-10 max-w-2xl text-center">
+          <h1 className="text-4xl font-bold mb-6 text-app-black">We've launched!</h1>
+          <p className="text-lg mb-4 text-app-black">Ready to begin your journey of self-discovery and personal growth? TranQuillity is here to empower you to enhance your emotional well-being, foster personal growth, and build healthy habits—all through the art of journaling.</p>
+          <p className="text-lg mb-6">Be the first to experience TranQuillity—a new way to connect with yourself. Sign up for our exclusive waitlist now and take your journaling to the next level!</p>
           <Link href="/register" className="m-auto mt-4 px-6 py-2 bg-gradient-to-r from-app-purple-700 to-app-purple-500 text-white rounded-lg flex items-center">
             Sign Up Now <MdOutlineArrowOutward />
           </Link>
