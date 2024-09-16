@@ -147,38 +147,3 @@ export async function POST(request) {
     });
   }
 }
-
-/**
- * updates a given note for a user
- * @param {Request} request 
- * @returns 
- */
-export async function PUT(request) {
-  try {
-    const data = await request.json();
-    const { id, ai, body, title } = data;
-    const userId = request.headers.get("userId");
-
-    if (!userId) {
-      return new Response(JSON.stringify({ error: "User ID is required" }), {
-        status: 400,
-      });
-    }
-    
-    // get the reference to the note document 
-    const noteDoc = doc(collection(db, "users", userId, "notes"), id);
-
-    await updateDoc(noteDoc, {
-      ai,
-      body,
-      title,
-    });
-
-    return new Response(JSON.stringify({ success: true }), { status: 200 });
-  } catch (error) {
-    console.error("Error updating note:", error);
-    return new Response(JSON.stringify({ error: "Error updating note" }), {
-      status: 500,
-    });
-  }
-}
