@@ -132,6 +132,11 @@ const JournalEntry = () => {
           {note.title}
         </span>
       </div>
+      <div className="flex flex-col items-center text-sm text-center text-app-black">
+        <span className="">
+          {isUnsaved ? "Unsaved changes" : ""}
+        </span>
+      </div>
       <div className="h-full w-full">
         <QuillEditor
           value={note.body}
