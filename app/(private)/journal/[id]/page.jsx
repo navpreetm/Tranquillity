@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { usePathname } from 'next/navigation'
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/firebaseApp";
@@ -16,6 +16,9 @@ const JournalEntry = () => {
   const [user, loading, error] = useAuthState(auth);
   const [note, setNote] = useState(null);
   const [isUnsaved, setIsUnsaved] = useState(false);
+  const [previousBody, setPreviousBody] = useState(null);
+
+  const timeoutRef = useRef(null);
 
   const customSetIsUnsaved = (newVal) => {
     console.log("setting unsaved to " + newVal);
@@ -85,8 +88,6 @@ const JournalEntry = () => {
 
   // Save note to Firebase
   const saveNote = useCallback(async () => {
-    console.log("saveNote called");
-
     if (!isUnsaved || !user) return; // No changes, no need to save
 
     try {
@@ -108,43 +109,16 @@ const JournalEntry = () => {
     }
   }, [note]);
 
-  // Autosave every 30 seconds if there are unsaved changes
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      saveNote();
-    }, 30000);
+    if (note && note.body && note.body !== previousBody) {
+      clearTimeout(timeoutRef.current);
 
-    return () => clearInterval(intervalId);
-  }, [saveNote]);
+      timeoutRef.current = setTimeout(saveNote, 5000);
 
-  // Manual save with Ctrl + S
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-        saveNote();
-      }
-    };
+      setPreviousBody(note.body);
+    }
 
-    window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [saveNote]);
-
-  // set up a hook to track the editor every 5 seconds
-  useEffect(() => {
-
-    // log the console of the editor every 5 seconds
-    const intervalId = setInterval(() => {
-      // if changed from 5 seconds ago, get the changes
-      // if changes exceed an amount of text, send a prompt to backend
-      console.log(`isUnsaved: ${isUnsaved}`);
-    }, 5000)
-
-    // unmount, clean up the interval
-    return () => clearInterval(intervalId);
+    return () => clearTimeout(timeoutRef.current);
   }, [note]);
 
   if (loading) return <h1>Loading user...</h1>;
